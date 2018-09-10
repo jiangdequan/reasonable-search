@@ -8,7 +8,7 @@ var express = require('express');
 var google = require('./routes/google');
 var ssr = require('./routes/ssr-subscribe');
 
-var LOGGER = require('../lib/logger/logger');
+var LOGGER = require('./lib/logger/logger');
 
 // 初始化express
 var app = express();
