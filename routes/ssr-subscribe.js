@@ -63,7 +63,7 @@ function siteGooglePlus() {
                 console.log(array.length);
     
                 for (var i = 0; i < array.length; i++) {
-                    if (!dataExist(array[i])) {
+                    if (!isAddedSsr(array[i])) {
                         crawledData.push(array[i]);
                         var result = rebuildSsr(array[i], "doub.io");
                         console.log('-------------------------');
@@ -115,7 +115,7 @@ function siteDoub() {
             var $element = $(element);
             var href = $element.attr('href');
             href = href.substring(href.indexOf('=') + 1);
-            if (href.startsWith('ssr:') && !dataExist(href)) {
+            if (href.startsWith('ssr:') && !isAddedSsr(href)) {
                 tempSrrArray.push(href);
                 var result = generateNewSsr(href, '', '', 'YouMayCallMeV_doub.io', 'doub.io');
                 tempSsrs.push(result);
