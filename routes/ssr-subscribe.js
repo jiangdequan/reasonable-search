@@ -91,8 +91,9 @@ function site52ssr() {
             var $element = $(element);
             var href = $element.attr('href');
             if (href.startsWith('ssr:') && !isAddedSsr(href)) {
+                LOGGER.info('get ssr from 52ssr.fun: ' + href, __filename);
                 tempSrrArray.push(href);
-                var result = generateNewSsr(href, '', '', 'YouMayCallMeV_52ssr.fun', remarks);
+                var result = generateNewSsr(href, '', '', 'YouMayCallMeV-52SSR', remarks);
                 tempSsrs.push(result);
             }
         });
@@ -118,7 +119,7 @@ function siteDoub() {
             if (href.startsWith('ssr:') && !isAddedSsr(href)) {
                 LOGGER.info('get ssr from doub.io: ' + href, __filename);
                 tempSrrArray.push(href);
-                var result = generateNewSsr(href, '', '', 'YouMayCallMeV_doub.io', 'doub.io');
+                var result = generateNewSsr(href, '', '', 'YouMayCallMeV-DOUB', 'doub');
                 tempSsrs.push(result);
             }
         });
@@ -197,7 +198,7 @@ function addAdditionalParams(originalSsr, protoparam, obfsparam, group, remarks)
         parameterAdded = true;
         originalSsr += andMark + 'group=' + base64.encryptSsr(group);
     }
-    LOGGER.debug(originalSsr, __filename);
+    LOGGER.debug(remarks + '-' + originalSsr, __filename);
     var encryptSsr = base64.encryptSsr(originalSsr);
     return SSR_PREFIX + encryptSsr;
 }
