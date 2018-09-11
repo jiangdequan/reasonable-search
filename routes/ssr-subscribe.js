@@ -222,13 +222,15 @@ function generateSsr(host, port, password, method, protocol, protoparam, obfs, o
     return addAdditionalParams(originalSsr, protoparam, obfsparam, group, remarks);
 }
 
-var scheduleJob = schedule.scheduleJob('* * 0,6,11,17,22 * * *', function(){
+var scheduleJob = schedule.scheduleJob('* * /6 * * *', function(){
     tempSrrArray = [];
     cachedData = [];
     site52ssr();
     siteDoub();
-    LOGGER.info('scheduled job is running!');
+    LOGGER.info('scheduled job is running!', __filename);
 });
 
 exports.site52ssr = site52ssr;
 exports.siteDoub = siteDoub;
+
+console.log(generateNewSsr('ssr://NDUuNjIuMjM4LjE0NzoyMDU3OmF1dGhf89lmcRH4LMJLpYl02xpc2hhMV92NDpjaGFjaGEyMDp0bHMxLjJfdGlja2V0X2F1dGg6Wkc5MVlpNXBieTl6YzNwb1puZ3ZLakl3TlRjLz9yZW1hcmtzPTVweXM1WVdONkxTNTZMU201WS0zNXAybDZJZXFPbVJ2ZFdJdWFXOHZjM042YUdaNEx3', '', '', 'YouMayCallMeV-DOUB', 'doub'));
