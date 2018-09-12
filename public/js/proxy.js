@@ -22,20 +22,25 @@ $(function () {
                 }
                 var encryptUrl = crypt.encrypt(url);
                 $("#content").attr("src", baseUrl + "/" + encodeURIComponent(encryptUrl));
+                $(".searchBar").slideUp();
             }
         });
     });
-    $("#content").load(function() {
-        changeFrameHeight();
+    $(".mdui-textfield-go").click(function() {
+        var url = $("#url").val();
+        if ('' === url || undefined === url) {
+            return;
+        }
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "http://" + url;
+        }
+        var encryptUrl = crypt.encrypt(url);
+        $("#content").attr("src", baseUrl + "/" + encodeURIComponent(encryptUrl));
+        $(".searchBar").fadeOut();
     });
+    $("#content").height($(document).height());
 
-    function changeFrameHeight() {
-        var iframe = document.getElementById("content");
-        iframe.height = document.documentElement.clientHeight;
-
-    }
-
-    window.onresize = function () {
-        changeFrameHeight();
-    }
+    $("#btn-search-toggle").click(function() {
+        $(".searchBar").toggle(500);
+    });
 });
