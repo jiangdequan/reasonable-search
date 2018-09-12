@@ -115,13 +115,21 @@ function siteDoub() {
         $('td a.dl1').each(function (idx, element) {
             var $element = $(element);
             var href = $element.attr('href');
-            href = href.substring(href.indexOf('=') + 1);
-            if (href.startsWith('ssr:') && !isAddedSsr(href)) {
-                LOGGER.info('get ssr from doub.io: ' + href, __filename);
-                tempSrrArray.push(href);
-                var result = generateNewSsr(href, '', '', 'YouMayCallMeV-DOUB', 'doub');
-                tempSsrs.push(result);
-            }
+            superagent.get(href).end(function (err, response) {
+                // request error
+                if (err) {
+                    LOGGER.error("Faile to crawl doub.io, " + err, __filename);
+                    return;
+                }
+                var $ = cheerio.load(response.text);
+                var ssr = $('#biao1').attr('href');
+                if (ssr.startsWith('ssr:') && !isAddedSsr(ssr)) {
+                    LOGGER.info('get ssr from doub.io: ' + ssr, __filename);
+                    tempSrrArray.push(ssr);
+                    var result = generateNewSsr(ssr, '', '', 'YouMayCallMeV-DOUB', 'doub');
+                    tempSsrs.push(result);
+                }
+            });
         });
         if (tempSsrs.length > 0) {
             cachedData['doub'] = tempSsrs;
