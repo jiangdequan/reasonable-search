@@ -25,25 +25,41 @@ router.get('/ssr/flush', function (req, res) {
     LOGGER.info('flush success!', __filename);
 });
 
+router.get('/ssr/subscribe/52ssr/:max', function (req, res) {
+    var max = parseInt(req.params.max);
+    res.send(generateResponse('52ssr', max));
+});
+
+router.get('/ssr/subscribe/52ssr', function (req, res) {
+    res.send(generateResponse('52ssr'));
+});
+
 router.get('/ssr/subscribe/doub/:max', function (req, res) {
     var max = parseInt(req.params.max);
-    if (max === 0) {
-        res.send('');
+    res.send(generateResponse('doub', max));
+});
+
+router.get('/ssr/subscribe/doub', function (req, res) {
+    res.send(generateResponse('doub'));
+});
+
+function generateResponse(key, max) {
+    var cachedSsrsByKey = cachedData[key];
+    if (undefined === max) {
+        return base64.encrypt(cachedSsrsByKey.join('\n'));
     }
-    var doubSsrs = cachedData['doub'];
-    max = doubSsrs.length < max ? doubSsrs.length : max;
+
+    if (max === 0) {
+        return '';
+    }
+    max = cachedSsrsByKey.length < max ? cachedSsrsByKey.length : max;
     var max_str = 'MAX=' + max;
     var selectedData = [];
     for (var i = 0; i < max; i++) {
-        selectedData.push(doubSsrs[i]);
+        selectedData.push(cachedSsrsByKey[i]);
     }
-    res.send(base64.encrypt(max_str + '\n' + selectedData.join('\n')));
-});
-
-router.get('/ssr/doub/subscribe', function (req, res) {
-    var doubSsrs = cachedData['doub'];
-    res.send(base64.encrypt(doubSsrs.join('\n')));
-});
+    return base64.encrypt(max_str + '\n' + selectedData.join('\n'));
+}
 
 function siteGooglePlus() {
     superagent.get('https://plus.google.com/communities/104092405342699579599').end(function (err, sres) {
@@ -97,9 +113,7 @@ function site52ssr() {
                 tempSsrs.push(result);
             }
         });
-        if (tempSsrs.length > 0) {
-            cachedData['52ssr'] = tempSsrs;
-        }
+        cachedData['52ssr'] = tempSsrs;
     });
 }
 
@@ -131,9 +145,7 @@ function siteDoub() {
                 }
             });
         });
-        if (tempSsrs.length > 0) {
-            cachedData['doub'] = tempSsrs;
-        }
+        cachedData['doub'] = tempSsrs;
     });
 }
 
@@ -240,5 +252,3 @@ var scheduleJob = schedule.scheduleJob('* * /6 * * *', function(){
 
 exports.site52ssr = site52ssr;
 exports.siteDoub = siteDoub;
-
-console.log(generateNewSsr('ssr://NDUuNjIuMjM4LjE0NzoyMDU3OmF1dGhf89lmcRH4LMJLpYl02xpc2hhMV92NDpjaGFjaGEyMDp0bHMxLjJfdGlja2V0X2F1dGg6Wkc5MVlpNXBieTl6YzNwb1puZ3ZLakl3TlRjLz9yZW1hcmtzPTVweXM1WVdONkxTNTZMU201WS0zNXAybDZJZXFPbVJ2ZFdJdWFXOHZjM042YUdaNEx3', '', '', 'YouMayCallMeV-DOUB', 'doub'));
