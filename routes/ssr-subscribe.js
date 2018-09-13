@@ -245,6 +245,8 @@ function generateSsr(host, port, password, method, protocol, protoparam, obfs, o
 var rule = new schedule.RecurrenceRule();
 var times = [1,5,9,13,17,21];
 rule.hour  = times;
+rule.minute =0;
+rule.second =0;
 
 var scheduleJob = schedule.scheduleJob(rule, function(){
     tempSrrArray = [];
