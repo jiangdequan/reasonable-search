@@ -242,7 +242,11 @@ function generateSsr(host, port, password, method, protocol, protoparam, obfs, o
     return addAdditionalParams(originalSsr, protoparam, obfsparam, group, remarks);
 }
 
-var scheduleJob = schedule.scheduleJob('* * /6 * * *', function(){
+var rule = new schedule.RecurrenceRule();
+var times = [1,5,9,13,17,21];
+rule.hour  = times;
+
+var scheduleJob = schedule.scheduleJob(rule, function(){
     tempSrrArray = [];
     cachedData = [];
     site52ssr();
