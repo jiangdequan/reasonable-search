@@ -77,7 +77,7 @@ function siteGooglePlus() {
                 console.log(textStr);
                 array = getSsrText(textStr);
                 console.log(array.length);
-    
+
                 for (var i = 0; i < array.length; i++) {
                     if (!isAddedSsr(array[i])) {
                         crawledData.push(array[i]);
@@ -89,6 +89,39 @@ function siteGooglePlus() {
                 }
             }
         });
+    });
+}
+
+/**
+ * ss://base64(method:password@server:port)
+ */
+function siteFreeSs() {
+    superagent.get('https://free-ss.site/').end(function (err, response) {
+        // record the error msg
+        if (err) {
+            LOGGER.error('failed to request free-ss.site, ' + error, __filename);
+            return;
+        }
+        var $ = cheerio.load(response.text);
+        var ssArray = [];
+        $('#tb8cda tr').each(function (idx, element) {
+            var $element = $(element);
+            var ssConfig = [];
+            $element.find('td').each(function (index, tdElement) {
+                if (index < 1 || index > 4) {
+                    continue;
+                }
+                var $tdElement = $(tdElement);
+                // the sequence: address port method password
+                ssConfig.push($tdElement.text());
+            });
+            ssArray.push(ssConfig);
+        });
+        for (var i = 0; i < ssArray.length; i++) {
+            var ssConfig = ssArray[i];
+            var ssLink = ssConfig[2] + ':' + ssConfig[3] + '@' + ssConfig[0] + ':' + ssConfig[1];
+            LOGGER.debug('ss from free-ss = ' + ssLink, __filename);
+        }
     });
 }
 
@@ -242,13 +275,14 @@ function generateSsr(host, port, password, method, protocol, protoparam, obfs, o
     return addAdditionalParams(originalSsr, protoparam, obfsparam, group, remarks);
 }
 
+// the rule of schedule Job: run job every 4 hours
 var rule = new schedule.RecurrenceRule();
-var times = [1,5,9,13,17,21];
-rule.hour  = times;
-rule.minute =0;
-rule.second =0;
+var times = [1, 5, 9, 13, 17, 21];
+rule.hour = times;
+rule.minute = 0;
+rule.second = 0;
 
-var scheduleJob = schedule.scheduleJob(rule, function(){
+var scheduleJob = schedule.scheduleJob(rule, function () {
     tempSrrArray = [];
     cachedData = [];
     site52ssr();
@@ -258,3 +292,4 @@ var scheduleJob = schedule.scheduleJob(rule, function(){
 
 exports.site52ssr = site52ssr;
 exports.siteDoub = siteDoub;
+exports.siteFreeSs = siteFreeSs;

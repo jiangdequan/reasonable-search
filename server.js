@@ -1,8 +1,9 @@
 //*******************************************//
-//             科学搜(chao)索(xi)            //
+//             科学搜(chao)索(xi)             //
+//             Reasonable Search             //
 //*******************************************//
 
-// 模块引入
+// import modules
 var express = require('express');
 
 var google = require('./routes/google');
@@ -11,7 +12,7 @@ var proxy = require('./routes/online-proxy');
 
 var LOGGER = require('./lib/logger/logger');
 
-// 初始化express
+// init express
 var app = express();
 
 app.use(express.static(__dirname + "/public"));
@@ -21,20 +22,21 @@ app.set("view cache", false);
 // register the template engine
 app.set('view engine', 'ejs');
 
+// routes
 app.use('/', google.router);
 app.use('/', ssr.router);
 app.use('/', proxy.router);
 
-// 端口及IP获取
+// port and ip
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
-// 启动监听
+// start the server and listen
 app.listen(port, ip, function () {
     ssr.site52ssr();
     ssr.siteDoub();
-    LOGGER.info('start to request...', __filename);
+    ssr.siteFreeSs();
+    LOGGER.info('Start to fetch ss/ssr config from internet...', __filename);
 });
 
-// 日志记录
 LOGGER.info('Server running on http://' + ip + ':' + port, __filename);
