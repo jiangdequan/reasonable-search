@@ -14,7 +14,20 @@ var tempSrrArray = [];
 
 var cachedData = [];
 
+var debugData = [];
+
 const SSR_PREFIX = 'ssr://';
+
+router.get('/ssr/debug', function (req, res) {
+    var temp = [];
+    for (var i = 0; i < debugData.length; i++) {
+        var ssConfig = debugData[i];
+        var ssLink = ssConfig[2] + ':' + ssConfig[3] + '@' + ssConfig[0] + ':' + ssConfig[1];
+        temp.push(ssLink);
+        LOGGER.debug('ss from free-ss = ' + ssLink, __filename);
+    }
+    res.send(temp.join('\n'));
+});
 
 router.get('/ssr/flush', function (req, res) {
     tempSrrArray = [];
@@ -103,7 +116,7 @@ function siteFreeSs() {
             return;
         }
         var $ = cheerio.load(response.text);
-        var ssArray = [];
+        var debugData = [];
         $('#tb8cda tr').each(function (idx, element) {
             var $element = $(element);
             var ssConfig = [];
@@ -114,13 +127,8 @@ function siteFreeSs() {
                     ssConfig.push($tdElement.text());
                 }
             });
-            ssArray.push(ssConfig);
+            debugData.push(ssConfig);
         });
-        for (var i = 0; i < ssArray.length; i++) {
-            var ssConfig = ssArray[i];
-            var ssLink = ssConfig[2] + ':' + ssConfig[3] + '@' + ssConfig[0] + ':' + ssConfig[1];
-            LOGGER.debug('ss from free-ss = ' + ssLink, __filename);
-        }
     });
 }
 
