@@ -108,12 +108,11 @@ function siteFreeSs() {
             var $element = $(element);
             var ssConfig = [];
             $element.find('td').each(function (index, tdElement) {
-                if (index < 1 || index > 4) {
-                    continue;
+                if (index > 0 && index < 5) {
+                    var $tdElement = $(tdElement);
+                    // the sequence: address port method password
+                    ssConfig.push($tdElement.text());
                 }
-                var $tdElement = $(tdElement);
-                // the sequence: address port method password
-                ssConfig.push($tdElement.text());
             });
             ssArray.push(ssConfig);
         });
