@@ -5,6 +5,11 @@ var request = require('request');
 var router = express.Router();
 
 // 路由
+router.get('/wiki', function(req, res) {
+    var url = 'https://zh.wikipedia.org/wiki/';
+    req.pipe(request(url)).pipe(res);
+});
+
 router.get('/wiki/:text', function(req, res) {
     var text = req.params.text;
     var url = 'https://zh.wikipedia.org/wiki/' + text;
