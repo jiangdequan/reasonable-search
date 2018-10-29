@@ -11,7 +11,7 @@ router.get('/wiki', function(req, res) {
 });
 
 router.get('/wiki/:text', function(req, res) {
-    var text = req.params.text;
+    var text = decodeURIComponent(req.params.text);
     var url = 'https://zh.wikipedia.org/wiki/' + text;
     req.pipe(request(url)).pipe(res);
 });
