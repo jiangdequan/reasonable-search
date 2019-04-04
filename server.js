@@ -25,11 +25,11 @@ app.set("view cache", false);
 app.set('view engine', 'ejs');
 
 // routes
-app.use('/', google.router);
 app.use('/', wiki.router);
 app.use('/', ssr.router);
 app.use('/', proxy.router);
 app.use('/', soccer.router);
+app.use('/', google.router);
 
 // port and ip
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
@@ -44,5 +44,13 @@ app.listen(port, ip, function () {
     soccer.siteHupu();
     LOGGER.info('Start to fetch matches data from internet...', __filename);
 });
+
+/**
+ * 异常处理
+ */
+process.on('uncaughtException', function(e) {
+    LOGGER.error(e.message);
+});
+
 
 LOGGER.info('Server running on http://' + ip + ':' + port, __filename);
