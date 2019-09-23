@@ -1,0 +1,8 @@
+keepalive:
+    cron: '0 */28 8-23 * * *'
+    sites:
+        - aHR0cHM6Ly9pMTAyNC5oZXJva3VhcHAuY29tLw==
+        - aHR0cHM6Ly9jYWxsbWV2Lmhlcm9rdWFwcC5jb20v
+        - aHR0cHM6Ly9kdW5pYW5nLmhlcm9rdWFwcC5jb20v
+        - aHR0cHM6Ly94MTAyNC5oZXJva3VhcHAuY29tLw==
+        - aHR0cHM6Ly95MTAyNC5oZXJva3VhcHAuY29tLw==

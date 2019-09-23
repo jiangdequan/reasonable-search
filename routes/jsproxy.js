@@ -1,6 +1,7 @@
 var express = require('express');
 var request = require('request');
-var fs = require('fs');
+
+var keepaliveTask = require('../lib/cron/keepalive');
 
 // 初始化express
 var router = express.Router();
@@ -20,6 +21,8 @@ router.use('/http', function (req, res) {
 });
 
 router.use('/', function (req, res) {
+    keepaliveTask.execute();
+
     var url = req.url;
     if (url.startsWith('/-----')) {
         url = url.substring(6);

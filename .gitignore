@@ -1,0 +1,9 @@
+node_modules
+package-lock.json
+reasonable-search.iml
+.project
+.settings
+*.bak
+.vscode
+lib/server.js
+test/
