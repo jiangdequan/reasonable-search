@@ -1,0 +1,39 @@
+{
+    "name": "reasonable-search-jsproxy",
+    "version": "0.0.1",
+    "description": "Find a easy way to search.",
+    "main": "server.js",
+    "dependencies": {
+        "@postlight/mercury-parser": "^2.1.0",
+        "body-parser": "^1.19.0",
+        "cheerio": "^1.0.0-rc.2",
+        "ejs": "^2.6.1",
+        "encoding": "~0.1.7",
+        "express": "^4.16.2",
+        "jsdom": "^11.9.0",
+        "minimist": "^1.2.0",
+        "node-jsencrypt": "~1.0.0",
+        "node-schedule": "^1.3.0",
+        "request": "^2.83.0",
+        "superagent": "^3.8.3",
+        "turndown": "5.0.3"
+    },
+    "engine": {
+        "node": "*",
+        "npm": "*"
+    },
+    "scripts": {
+        "start": "node server.js",
+        "test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jiangdequan/reasonable-search-jsproxy.git"
+    },
+    "author": "bo1318 <jiangdequan1314@gmail.com>",
+    "license": "",
+    "bugs": {
+        "url": "https://github.com/jiangdequan/reasonable-search-jsproxy/issues"
+    },
+    "homepage": "http://jiangdequan.github.io/"
+}
