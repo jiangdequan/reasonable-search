@@ -11,6 +11,7 @@ var wiki = require('./routes/wiki');
 var ssr = require('./routes/ssr-subscribe');
 var proxy = require('./routes/online-proxy');
 var soccer = require('./routes/soccer');
+var content = require('./routes/content');
 
 var LOGGER = require('./lib/logger/logger');
 
@@ -24,15 +25,18 @@ app.set("view cache", false);
 // register the template engine
 app.set('view engine', 'ejs');
 
+app.use(express.urlencoded());
+
 // routes
 app.use('/', wiki.router);
 app.use('/', ssr.router);
 app.use('/', proxy.router);
 app.use('/', soccer.router);
+app.use('/', content.router);
 app.use('/', google.router);
 
 // port and ip
-var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
+var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 9999,
     ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
 // start the server and listen
